@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: PurgeBot-net/workflows/.github/workflows/validate-docker.yml@main
+
+  auto-label:
+    if: github.event_name == 'pull_request'
+    uses: PurgeBot-net/workflows/.github/workflows/auto-label.yaml@main
+    secrets: inherit
