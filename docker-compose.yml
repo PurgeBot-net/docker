@@ -80,6 +80,8 @@ services:
     pull_policy: if_not_present
     restart: unless-stopped
     env_file: .env
+    environment:
+      SHARD_SPLIT_COUNT: ${SHARD_SPLIT_COUNT:-2}
     depends_on:
       postgres:
         condition: service_healthy
