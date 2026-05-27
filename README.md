@@ -28,6 +28,10 @@ To update to the latest images:
 docker compose pull && docker compose up -d
 ```
 
+## Networking
+
+Only `interactions` and `postgres` expose ports on the host; the rest of the stack communicates over the default Compose network.
+
 The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so Discord or a reverse proxy can reach it from outside Docker. PostgreSQL is published on `POSTGRES_PORT` (default `5532`) when you need access from your machine—for example HeidiSQL on `localhost`. Containers in the stack still connect to the database at `postgres:5432`.
 
 ## Configuration
