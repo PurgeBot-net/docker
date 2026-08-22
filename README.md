@@ -11,7 +11,6 @@ Deployment repository for PurgeBot. Contains the Docker Compose stack and enviro
 | `purger`       | `ghcr.io/purgebot-net/purger`       | Purge job worker          |
 | `postgres`     | `postgres:16-alpine`                | Primary database          |
 | `redis`        | `redis:7-alpine`                    | Job queue and guild locks |
-| `kafka`        | `apache/kafka`                      | Event bus                 |
 
 ## Setup
 
@@ -51,8 +50,7 @@ The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so
 | `REDIS_ADDR`             | Redis address (default `redis:6379`)                                 |
 | `REDIS_PASSWORD`         | Redis password                                                       |
 | `REDIS_DB`               | Redis database index                                                 |
-| `KAFKA_BROKERS`          | Kafka broker list                                                    |
-| `KAFKA_EVENTS_TOPIC`     | Topic for guild lifecycle events                                     |
+| `REDIS_EVENTS_STREAM`    | Redis stream for guild lifecycle events (default `purgebot-events`)  |
 | `SHARD_SPLIT_COUNT`      | Shards to split into when Discord requests re-sharding (default `2`) |
 | `SENTRY_DSN`             | Sentry error reporting (optional)                                    |
 | `LOG_LEVEL`              | `debug`, `info`, `warn`, `error`                                     |
