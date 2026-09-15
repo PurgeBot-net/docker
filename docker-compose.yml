@@ -45,6 +45,11 @@ services:
     env_file: .env
     ports:
       - "${INTERACTIONS_PORT:-8181}:8080"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       postgres:
         condition: service_healthy
@@ -59,6 +64,11 @@ services:
     env_file: .env
     environment:
       SHARD_SPLIT_COUNT: ${SHARD_SPLIT_COUNT:-2}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       postgres:
         condition: service_healthy
@@ -71,6 +81,11 @@ services:
     pull_policy: if_not_present
     restart: unless-stopped
     env_file: .env
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       postgres:
         condition: service_healthy
