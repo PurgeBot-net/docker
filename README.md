@@ -9,6 +9,7 @@ Deployment repository for PurgeBot. Contains the Docker Compose stack and enviro
 | `interactions` | `ghcr.io/purgebot-net/interactions` | HTTP interactions service |
 | `gateway`      | `ghcr.io/purgebot-net/gateway`      | Discord gateway service   |
 | `purger`       | `ghcr.io/purgebot-net/purger`       | Purge job worker          |
+| `sweeper`      | `ghcr.io/purgebot-net/sweeper`      | Server data retention     |
 | `postgres`     | `postgres:16-alpine`                | Primary database          |
 | `redis`        | `redis:7-alpine`                    | Job queue and guild locks |
 
@@ -25,6 +26,12 @@ To update to the latest images:
 
 ```sh
 docker compose pull && docker compose up -d
+```
+
+Postgres runs `init/01_schema.sql` only on an empty volume. When an update changes that file, apply it to the existing database; it is idempotent:
+
+```sh
+docker exec -i purgebot-postgres sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < init/01_schema.sql
 ```
 
 ## Networking
@@ -50,7 +57,6 @@ The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so
 | `REDIS_ADDR`                | Redis address (default `redis:6379`)                                               |
 | `REDIS_PASSWORD`            | Redis password                                                                     |
 | `REDIS_DB`                  | Redis database index                                                               |
-| `REDIS_EVENTS_STREAM`       | Redis stream for guild lifecycle events (default `purgebot-events`)                |
 | `SHARD_SPLIT_COUNT`         | Shards to split into when Discord requests re-sharding (default `2`)               |
 | `WORKER_CONCURRENCY`        | Purge workers to run in parallel (default `4`)                                     |
 | `PURGE_CHANNEL_CONCURRENCY` | Channels of one purge to delete from at once, `0` for every channel (default `10`) |
@@ -60,6 +66,7 @@ The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so
 | `INTERACTIONS_IMAGE`        | Pinned interactions image                                                          |
 | `GATEWAY_IMAGE`             | Pinned gateway image                                                               |
 | `PURGER_IMAGE`              | Pinned purger image                                                                |
+| `SWEEPER_IMAGE`             | Pinned sweeper image                                                               |
 | `INTERACTIONS_ADDR`         | Listen address for the interactions service (default `:8080`)                      |
 | `PREMIUM_SKU_ID`            | Discord premium SKU ID (optional)                                                  |
 | `FREE_PREMIUM_GUILD_IDS`    | Comma-separated guild IDs with free premium (optional)                             |

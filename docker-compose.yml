@@ -92,6 +92,23 @@ services:
       redis:
         condition: service_healthy
 
+  sweeper:
+    container_name: purgebot-sweeper
+    image: ${SWEEPER_IMAGE:-ghcr.io/purgebot-net/sweeper:latest}
+    pull_policy: if_not_present
+    restart: unless-stopped
+    env_file: .env
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
 volumes:
   postgres_data:
   redis_data:
