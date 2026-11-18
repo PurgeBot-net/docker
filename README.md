@@ -60,7 +60,7 @@ The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so
 | `SHARD_SPLIT_COUNT`         | Shards to split into when Discord requests re-sharding (default `2`)               |
 | `WORKER_CONCURRENCY`        | Purge workers to run in parallel (default `4`)                                     |
 | `PURGE_CHANNEL_CONCURRENCY` | Channels of one purge to delete from at once, `0` for every channel (default `10`) |
-| `SENTRY_DSN`                | Sentry error reporting (optional)                                                  |
+| `SENTRY_DSN`                | Sentry-compatible error reporting (optional)                                       |
 | `LOG_LEVEL`                 | `debug`, `info`, `warn`, `error`                                                   |
 | `LOG_JSON`                  | `true` for JSON log output                                                         |
 | `INTERACTIONS_IMAGE`        | Pinned interactions image                                                          |
