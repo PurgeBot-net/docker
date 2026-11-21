@@ -15,7 +15,7 @@ Deployment repository for PurgeBot. Contains the Docker Compose stack and enviro
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and fill in all values.
+1. Copy `.env.example` to `.env` and fill in the values. The image variables, `PREMIUM_SKU_ID`, `FREE_PREMIUM_GUILD_IDS` and `SENTRY_DSN` can stay blank.
 2. Run the stack:
 
 ```sh
@@ -38,7 +38,7 @@ docker exec -i purgebot-postgres sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_US
 
 Only `interactions` and `postgres` expose ports on the host; the rest of the stack communicates over the default Compose network.
 
-The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so Discord or a reverse proxy can reach it from outside Docker. PostgreSQL is published on `POSTGRES_PORT` (default `5532`) when you need access from your machine—for example HeidiSQL on `localhost`. Containers in the stack still connect to the database at `postgres:5432`.
+The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so Discord or a reverse proxy can reach it from outside Docker. PostgreSQL is published on `POSTGRES_PORT` (default `5532`) for access from your machine—for example HeidiSQL on `localhost`. Containers in the stack still connect to the database at `postgres:5432`.
 
 ## Configuration
 
@@ -63,10 +63,10 @@ The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so
 | `SENTRY_DSN`                | Sentry-compatible error reporting (optional)                                       |
 | `LOG_LEVEL`                 | `debug`, `info`, `warn`, `error`                                                   |
 | `LOG_JSON`                  | `true` for JSON log output                                                         |
-| `INTERACTIONS_IMAGE`        | Pinned interactions image                                                          |
-| `GATEWAY_IMAGE`             | Pinned gateway image                                                               |
-| `PURGER_IMAGE`              | Pinned purger image                                                                |
-| `SWEEPER_IMAGE`             | Pinned sweeper image                                                               |
+| `INTERACTIONS_IMAGE`        | Interactions image to run (default `ghcr.io/purgebot-net/interactions:latest`)     |
+| `GATEWAY_IMAGE`             | Gateway image to run (default `ghcr.io/purgebot-net/gateway:latest`)               |
+| `PURGER_IMAGE`              | Purger image to run (default `ghcr.io/purgebot-net/purger:latest`)                 |
+| `SWEEPER_IMAGE`             | Sweeper image to run (default `ghcr.io/purgebot-net/sweeper:latest`)               |
 | `INTERACTIONS_ADDR`         | Listen address for the interactions service (default `:8080`)                      |
 | `PREMIUM_SKU_ID`            | Discord premium SKU ID (optional)                                                  |
 | `FREE_PREMIUM_GUILD_IDS`    | Comma-separated guild IDs with free premium (optional)                             |
