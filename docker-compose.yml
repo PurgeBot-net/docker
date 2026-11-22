@@ -1,5 +1,20 @@
 name: purgebot
 
+x-bot-service: &bot-service
+  pull_policy: if_not_present
+  restart: unless-stopped
+  env_file: .env
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
 services:
   # ─── Infrastructure ──────────────────────────────────────────────────────────
 
@@ -38,76 +53,26 @@ services:
   # ─── Bot services ─────────────────────────────────────────────────────────────
 
   interactions:
+    <<: *bot-service
     container_name: purgebot-interactions
     image: ${INTERACTIONS_IMAGE:-ghcr.io/purgebot-net/interactions:latest}
-    pull_policy: if_not_present
-    restart: unless-stopped
-    env_file: .env
     ports:
       - "${INTERACTIONS_PORT:-8181}:8080"
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
   gateway:
+    <<: *bot-service
     container_name: purgebot-gateway
     image: ${GATEWAY_IMAGE:-ghcr.io/purgebot-net/gateway:latest}
-    pull_policy: if_not_present
-    restart: unless-stopped
-    env_file: .env
-    environment:
-      SHARD_SPLIT_COUNT: ${SHARD_SPLIT_COUNT:-2}
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
   purger:
+    <<: *bot-service
     container_name: purgebot-purger
     image: ${PURGER_IMAGE:-ghcr.io/purgebot-net/purger:latest}
-    pull_policy: if_not_present
-    restart: unless-stopped
-    env_file: .env
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
   sweeper:
+    <<: *bot-service
     container_name: purgebot-sweeper
     image: ${SWEEPER_IMAGE:-ghcr.io/purgebot-net/sweeper:latest}
-    pull_policy: if_not_present
-    restart: unless-stopped
-    env_file: .env
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
 volumes:
   postgres_data:

@@ -47,14 +47,14 @@ The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so
 | `DISCORD_TOKEN`             | Bot token                                                                          |
 | `DISCORD_PUBLIC_KEY`        | Ed25519 public key for signature verification                                      |
 | `DISCORD_APPLICATION_ID`    | Application ID                                                                     |
-| `DATABASE_HOST`             | PostgreSQL host                                                                    |
+| `DATABASE_HOST`             | PostgreSQL host (`postgres` in this stack)                                         |
 | `DATABASE_PORT`             | PostgreSQL port                                                                    |
 | `DATABASE_NAME`             | Database name                                                                      |
 | `DATABASE_USER`             | Database user                                                                      |
 | `DATABASE_PASSWORD`         | Database password                                                                  |
 | `POSTGRES_PORT`             | Host port binding for postgres (default `5532`)                                    |
 | `INTERACTIONS_PORT`         | Host port binding for the interactions service (default `8181`)                    |
-| `REDIS_ADDR`                | Redis address (default `redis:6379`)                                               |
+| `REDIS_ADDR`                | Redis address (`redis:6379` in this stack)                                         |
 | `REDIS_PASSWORD`            | Redis password                                                                     |
 | `REDIS_DB`                  | Redis database index                                                               |
 | `SHARD_SPLIT_COUNT`         | Shards to split into when Discord requests re-sharding (default `2`)               |
@@ -68,5 +68,5 @@ The interactions service is published on `INTERACTIONS_PORT` (default `8181`) so
 | `PURGER_IMAGE`              | Purger image to run (default `ghcr.io/purgebot-net/purger:latest`)                 |
 | `SWEEPER_IMAGE`             | Sweeper image to run (default `ghcr.io/purgebot-net/sweeper:latest`)               |
 | `INTERACTIONS_ADDR`         | Listen address for the interactions service (default `:8080`)                      |
-| `PREMIUM_SKU_ID`            | Discord premium SKU ID (optional)                                                  |
+| `PREMIUM_SKU_ID`            | Discord premium SKU ID (optional; must be numeric)                                 |
 | `FREE_PREMIUM_GUILD_IDS`    | Comma-separated guild IDs with free premium (optional)                             |
